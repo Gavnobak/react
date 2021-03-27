@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import TextField from "@material-ui/core/TextField";
+import SimpleModal from "./FilterModal";
 
 const useStyles = makeStyles((theme) => ({
     mainFeaturedPost: {
@@ -22,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
         bottom: 0,
         right: 0,
         left: 0,
-        backgroundColor: 'rgba(0,0,0,.3)',
+        // backgroundColor: 'rgba(0,0,0,.3)',
     },
     mainFeaturedPostContent: {
         position: 'relative',
@@ -32,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
             paddingRight: 0,
         },
     },
+
 }));
 
 function Header(props) {
@@ -51,6 +54,10 @@ function Header(props) {
                         <Typography variant="h5" color="inherit" paragraph>
                             {post.description}
                         </Typography>
+                        <div>
+                            <TextField id="outlined-search" label="Search field" type="search" variant="outlined" />
+                            <SimpleModal />
+                        </div>
                     </div>
                 </Grid>
             </Grid>

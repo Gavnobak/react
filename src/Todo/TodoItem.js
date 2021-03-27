@@ -6,6 +6,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import CardContent from "@material-ui/core/CardContent";
 import {makeStyles} from "@material-ui/core/styles";
+import Chip from "@material-ui/core/Chip";
 
 function TodoItem({todo}) {
     const useStyles = makeStyles((theme) => ({
@@ -27,10 +28,11 @@ function TodoItem({todo}) {
     return (
         <Grid item key={todo} xs={12} sm={6} md={4}>
             <Card className={classes.card}>
-                <CardMedia
-                    className={classes.cardMedia}
-                    image={todo.thumbnail}
-                />
+                <CardMedia className={classes.cardMedia} image={todo.thumbnail}>
+                    <Chip label={todo.cookTime}/>
+                    <Chip label={todo.caloricity + "kCal"}/>
+                    <Chip label={todo.cuisine.title}/>
+                </CardMedia>
                 <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
                         {todo.title}
