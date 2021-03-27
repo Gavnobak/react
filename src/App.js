@@ -1,5 +1,6 @@
 import React from 'react'
 import TodoList from './Todo/TodoList'
+import AddTodo from './Todo/AddTodo'
 import Context from "./context";
 
 
@@ -9,6 +10,16 @@ function App() {
         {id: 2, completed: true, title: 'Купить масто'},
         {id: 3, completed: false, title: 'Купить молоко'}
     ])
+
+    function addTodo(title) {
+        setTodos((todos.concat([
+            {
+                title,
+                id: Date.now(),
+                completed: false
+            }
+        ])))
+    }
 
     function toggleTodo(id) {
         setTodos(todos.map(todo => {
@@ -27,7 +38,8 @@ function App() {
         <Context.Provider value={{removeTodo}}>
             <div className="wrapper">
                 <h1>React tutorial</h1>
-                <TodoList todos={todos} onToggle={toggleTodo}/>
+                <AddTodo onCreate={addTodo} />
+                {todos.length ? <TodoList todos={todos} onToggle={toggleTodo}/> : <p>No todos</p>}
             </div>
         </Context.Provider>
     );
