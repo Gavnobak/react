@@ -8,7 +8,7 @@ import CardContent from "@material-ui/core/CardContent";
 import {makeStyles} from "@material-ui/core/styles";
 import Chip from "@material-ui/core/Chip";
 
-function TodoItem({todo}) {
+function RecipeItem({recipe}) {
     const useStyles = makeStyles((theme) => ({
         card: {
             height: '100%',
@@ -26,19 +26,19 @@ function TodoItem({todo}) {
     const classes = useStyles();
 
     return (
-        <Grid item key={todo} xs={12} sm={6} md={4}>
+        <Grid item key={recipe} xs={12} sm={6} md={4}>
             <Card className={classes.card}>
-                <CardMedia className={classes.cardMedia} image={todo.thumbnail}>
-                    <Chip label={todo.cookTime}/>
-                    <Chip label={todo.caloricity + "kCal"}/>
-                    <Chip label={todo.cuisine.title}/>
+                <CardMedia className={classes.cardMedia} image={recipe.thumbnail}>
+                    <Chip label={recipe.cookTime}/>
+                    <Chip label={recipe.caloricity + "kCal"}/>
+                    <Chip label={recipe.cuisine.title}/>
                 </CardMedia>
                 <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
-                        {todo.title}
+                        {recipe.title}
                     </Typography>
                     <Typography>
-                        {todo.description}
+                        {recipe.description}
                     </Typography>
                 </CardContent>
             </Card>
@@ -46,8 +46,8 @@ function TodoItem({todo}) {
     )
 }
 
-TodoItem.propTypes = {
-    todo: PropTypes.object.isRequired,
+RecipeItem.propTypes = {
+    recipe: PropTypes.object.isRequired,
 }
 
-export default TodoItem
+export default RecipeItem
