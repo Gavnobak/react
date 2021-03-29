@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
@@ -9,6 +9,8 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
 import Slider from "@material-ui/core/Slider";
+import {Context} from "../context";
+import Button from "@material-ui/core/Button";
 
 function rand() {
     return Math.round(Math.random() * 20) - 10;
@@ -42,18 +44,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function FilterModal(props) {
-    //let [filters, setFilters] = React.useState({});
+function FilterModal({filters,caloricityRange}) {
+
+    const {acceptFilters} = useContext(Context)
     const classes = useStyles();
-    //const {filters, getFilters} = props
     const checkboxes = ["Caribbean","Greek","French", "Indian","Chinese"]
-    // getModalStyle is not a pure function, we roll the style only on the first render
     const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
 
     const handleOpen = () => {
-        //if (!filters && !filters.length)
-            //getFilters()
         setOpen(true);
     };
     const marks = [
@@ -77,34 +76,31 @@ function FilterModal(props) {
         <div style={modalStyle} className={classes.paper}>
             <FormControl component="fieldset" className={classes.formControl}>
                 <FormGroup>
-                    {/*{filters.cuisines && filters.cuisines.length ?*/}
-                    {/*    Object.keys(filters.cuisines).map((cuisin) => {*/}
-                    {/*        return <FormControlLabel*/}
-                    {/*            value={cuisin}*/}
-                    {/*            checked={filters.cuisines[cuisin]}*/}
-                    {/*            control={<Checkbox color="primary"/>}*/}
-                    {/*            label={cuisin}*/}
-                    {/*            labelPlacement="start"*/}
-                    {/*        />*/}
-                    {/*    }) : <div>No cuisines</div>}*/}
-                    {checkboxes.map((cuisin,index) => {
+                    {filters.map((cuisin,index) => {
                             return <FormControlLabel
-                                value={cuisin}
+                                value={cuisin.value}
                                 control={<Checkbox color="primary"/>}
-                                label={cuisin}
+                                label={cuisin.title}
                                 key={index}
                                 labelPlacement="start"
+                                onChange={acceptFilters}
                             />
                         })}
                     <Slider
-                        defaultValue={80}
+                        defaultValue={caloricityRange}
                         getAriaValueText={valuetext}
-                        aria-labelledby="discrete-slider-always"
+                        aria-labelledby="range-slider"
                         step={100}
+                        min={caloricityRange[0]}
+                        max={caloricityRange[1]}
                         marks={marks}
                         valueLabelDisplay="on"
+                        onChange={(event) => { console.log(event.target); }}
                     />
                 </FormGroup>
+                <Button variant="contained" color="primary" href="#contained-buttons" onClick={() => { console.log('onClick'); }}>
+                    Accept
+                </Button>
             </FormControl>
         </div>
     );

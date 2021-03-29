@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import FilterModal from "./FilterModal";
+import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles((theme) => ({
     mainFeaturedPost: {
@@ -38,7 +39,15 @@ const useStyles = makeStyles((theme) => ({
 
 function Header(props) {
     const classes = useStyles();
-    const { post,/*filters, getFilters,*/ onChange } = props;
+    const { post,filters,caloricityRange, changeFilter } = props;
+    const [recFilterTitle, setRecFilterTitle] = React.useState('')
+
+    const filterRec = event => {
+        if (event.key === 'Enter') {
+            changeFilter(recFilterTitle)
+        }
+
+    }
 
     return <Paper className={classes.mainFeaturedPost} style={{ backgroundImage: `url(${post.image})` }}>
         {<img style={{ display: 'none' }} src={post.image}  />}
@@ -53,19 +62,15 @@ function Header(props) {
                         {post.description}
                     </Typography>
                     <div>
-                        <input
+                        <TextField
                             id="outlined-search"
                             label="Search field"
                             type="search"
                             variant="outlined"
-                            onChange={
-                                (event) => {
-                                    event.preventDefault()
-                                    onChange(event.target.value)
-                                }
-                            }
+                            onKeyPress={filterRec}
+                            onChange={event => setRecFilterTitle(event.target.value)}
                         />
-                        <FilterModal /*filters={filters} getFilters={getFilters}*//>
+                        <FilterModal filters={filters} caloricityRange={caloricityRange}/>
                     </div>
                 </div>
             </Grid>

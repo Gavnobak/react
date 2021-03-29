@@ -4,11 +4,13 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Header from "./Recipes/Header";
+import {Context} from './context';
 
 function App() {
     const [recipes, setRecipes] = React.useState([])
     const [filteredRecipes, setFilteredRecipes] = React.useState([])
-    //const [filters, setFilters] = React.useState([])
+    const [filters, setFilters] = React.useState([])
+    const [caloricityRange, setCaloricityRange] = React.useState([])
     const getRecipes = () => {
         fetch('https://test.kode-t.ru/list.json')
             .then(response => response.json())
@@ -21,6 +23,34 @@ function App() {
     useEffect(() => {
         getRecipes()
     }, [])
+
+
+    useEffect(() => {
+        let unicCuisine = []
+        let toSet = []
+        let minCal = null
+        let maxCal = null
+        recipes.forEach(rec => {
+            if (rec.cuisine.title && !unicCuisine.includes(rec.cuisine.title)) {
+                unicCuisine.push(rec.cuisine.title)
+                toSet.push(
+                    {
+                        title: rec.cuisine.title,
+                        value: true
+                    }
+                );
+            }
+            if (rec.caloricity && (!minCal || minCal > rec.caloricity)) {
+                minCal = rec.caloricity
+            }
+            if (rec.caloricity && (!maxCal || maxCal < rec.caloricity)) {
+                maxCal = rec.caloricity
+            }
+        })
+        setFilters(toSet)
+        setCaloricityRange([minCal,maxCal])
+
+    }, [recipes])
 
     const useStyles = makeStyles((theme) => ({
         heroContent: {
@@ -43,11 +73,21 @@ function App() {
         image: 'https://s3-alpha-sig.figma.com/img/4753/d7c5/cb990e282b15a01c7b59a7ea480ff736?Expires=1617580800&Signature=bYny6Hx0SK5g6YZ1z3jOYcMOt2oyIyYjsrm03E3aBLPivHpwsr7bDs-Nyw5gwR2AtZylZ4v1Z86zskNHoH5cMmB1fiq5jUepwu9ft3aJGGcmduy~1kFhExM3p4pKy5hoCHORCGQvUKPb1BMASgvZN17qzOejAizBZPfV73Qe6oPaO~S~IHglvZWclt8jqvrSBuAOhchZ0bIwNkOHnNONPz7uRUyId5hI8iQirzObLHh8TMJPtQVZrlT4t3FIsdcI9l2YPiRM2BcC~A6vPVY2PzF9A4GgzFyy5Ef9ewEFgWLqfPP6koEbYl7IQ3bWxAq9F5UFRuOzvoFnzVYWYGtFeQ__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA',
     };
 
-    function filterRec(filterValue) {
-        setFilteredRecipes(
-            recipes.filter(rec => {
-                return rec.title.toLowerCase().includes(filterValue.toLowerCase())
-            }))
+    function filterRec(value) {
+        if (value) {
+            setFilteredRecipes(
+                recipes.filter(rec => {
+                    return rec.title.toLowerCase().includes(value.toLowerCase())
+                }))
+        } else {
+            setFilteredRecipes(recipes)
+        }
+
+
+    }
+
+    function acceptFilters() {
+        console.log("hi")
     }
 
     // function getFilters() {
@@ -78,23 +118,24 @@ function App() {
     const classes = useStyles();
     return (
 
+        <Context.Provider value={{
+            acceptFilters
+        }}>
         <React.Fragment>
             <CssBaseline/>
-            {/*<Context.Provider value={{filterRec}}>*/}
             <main>
                 <Header
                     post={mainFeaturedPost}
-                    // filters={filters}
-                    // getFilters={getFilters}
-                    onChange={filterRec}
+                    filters={filters}
+                    caloricityRange={caloricityRange}
+                    changeFilter={filterRec}
                 />
                 <Container className={classes.cardGrid} maxWidth="md">
                     <RecipeList recipes={filteredRecipes}/>
                 </Container>
             </main>
-            {/*</Context.Provider>*/}
         </React.Fragment>
-
+    </Context.Provider>
     );
 }
 
