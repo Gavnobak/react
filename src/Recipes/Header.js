@@ -39,12 +39,11 @@ const useStyles = makeStyles((theme) => ({
 
 function Header(props) {
     const classes = useStyles();
-    const { post,filters,caloricityRange, changeFilter } = props;
-    const [recFilterTitle, setRecFilterTitle] = React.useState('')
+    const { post,filters, setFilters, changeFilter } = props;
 
     const filterRec = event => {
         if (event.key === 'Enter') {
-            changeFilter(recFilterTitle)
+            changeFilter(filters.title)
         }
 
     }
@@ -68,9 +67,9 @@ function Header(props) {
                             type="search"
                             variant="outlined"
                             onKeyPress={filterRec}
-                            onChange={event => setRecFilterTitle(event.target.value)}
+                            onChange={event => setFilters({...filters,title:event.target.value})}
                         />
-                        <FilterModal filters={filters} caloricityRange={caloricityRange}/>
+                        <FilterModal filters={filters} setFilters={setFilters}/>
                     </div>
                 </div>
             </Grid>

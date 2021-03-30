@@ -9,8 +9,7 @@ import {Context} from './context';
 function App() {
     const [recipes, setRecipes] = React.useState([])
     const [filteredRecipes, setFilteredRecipes] = React.useState([])
-    const [filters, setFilters] = React.useState([])
-    const [caloricityRange, setCaloricityRange] = React.useState([])
+    const [filters, setFilters] = React.useState({})
     const getRecipes = () => {
         fetch('https://test.kode-t.ru/list.json')
             .then(response => response.json())
@@ -47,8 +46,12 @@ function App() {
                 maxCal = rec.caloricity
             }
         })
-        setFilters(toSet)
-        setCaloricityRange([minCal,maxCal])
+        setFilters({
+            title: '',
+            cuisines: toSet,
+            caloricityRange: [minCal,maxCal],
+            caloricityCurrent: [minCal,maxCal]
+        })
 
     }, [recipes])
 
@@ -82,38 +85,21 @@ function App() {
         } else {
             setFilteredRecipes(recipes)
         }
+    }
 
-
+    function isValid(item) {
+        if (item.caloricity <= filters.caloricityCurrent[1] && item.caloricity >= filters.caloricityCurrent[0])
+            return true;
+        else {
+            return false;
+        }
     }
 
     function acceptFilters() {
-        console.log("hi")
+        setFilteredRecipes(recipes.filter(isValid))
     }
 
-    // function getFilters() {
-    //     let filtersNew = {
-    //         cuisines: {},
-    //         minCal: null,
-    //         maxCal: null
-    //     }
-    //     recipes.forEach(rec => {
-    //         if (rec.cuisine.title && !filtersNew.cuisines.hasOwnProperty(rec.cuisine.title)) {
-    //             filtersNew.cuisines[rec.cuisine.title] = true
-    //         }
-    //         if (rec.caloricity && (!filtersNew.minCal || filtersNew.minCal > rec.caloricity)) {
-    //             filtersNew.minCal = rec.caloricity
-    //         }
-    //         if (rec.caloricity && (!filtersNew.maxCal || filtersNew.maxCal < rec.caloricity)) {
-    //             filtersNew.maxCal = rec.caloricity
-    //         }
-    //     })
-    //     setFilters(prevState => ({
-    //         ...prevState,
-    //          minCal: filtersNew.minCal, maxCal: filtersNew.maxCal
-    //     }));
-    //     // setFilters({  ...filters,cuisines:filtersNew.cuisines, minCal: filtersNew.minCal, maxCal: filtersNew.maxCal})
-    //     console.log(filters)
-    // }
+   
 
     const classes = useStyles();
     return (
@@ -127,7 +113,7 @@ function App() {
                 <Header
                     post={mainFeaturedPost}
                     filters={filters}
-                    caloricityRange={caloricityRange}
+                    setFilters={setFilters}
                     changeFilter={filterRec}
                 />
                 <Container className={classes.cardGrid} maxWidth="md">

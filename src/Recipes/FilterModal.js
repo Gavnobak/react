@@ -44,11 +44,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function FilterModal({filters,caloricityRange}) {
+function FilterModal({filters, setFilters}) {
 
     const {acceptFilters} = useContext(Context)
     const classes = useStyles();
-    const checkboxes = ["Caribbean","Greek","French", "Indian","Chinese"]
     const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
 
@@ -72,33 +71,43 @@ function FilterModal({filters,caloricityRange}) {
         setOpen(false);
     };
 
+    function changeCheckbox(index) {
+        let newCuisines = filters.cuisines.slice()
+        newCuisines[index].value = !newCuisines[index].value
+        setFilters({...filters, cuisines:newCuisines})
+    }
+
+    function changeCaloricity(value) {
+        setFilters({...filters, caloricityCurrent:value})
+    }
+
     const body = (
         <div style={modalStyle} className={classes.paper}>
             <FormControl component="fieldset" className={classes.formControl}>
                 <FormGroup>
-                    {filters.map((cuisin,index) => {
+                    {filters.cuisines? filters.cuisines.map((cuisin,index) => {
                             return <FormControlLabel
-                                value={cuisin.value}
+                                checked={cuisin.value}
                                 control={<Checkbox color="primary"/>}
                                 label={cuisin.title}
                                 key={index}
                                 labelPlacement="start"
-                                onChange={acceptFilters}
+                                onChange={event => changeCheckbox(index)}
                             />
-                        })}
-                    <Slider
-                        defaultValue={caloricityRange}
+                        }): <div>Empty</div>}
+                    {filters.caloricityRange? <Slider
+                        value={filters.caloricityCurrent}
                         getAriaValueText={valuetext}
                         aria-labelledby="range-slider"
                         step={100}
-                        min={caloricityRange[0]}
-                        max={caloricityRange[1]}
+                        min={filters.caloricityRange[0]}
+                        max={filters.caloricityRange[1]}
                         marks={marks}
                         valueLabelDisplay="on"
-                        onChange={(event) => { console.log(event.target); }}
-                    />
+                        onChange={(event,value) => { changeCaloricity(value); }}
+                    />: <div>Empty</div>}
                 </FormGroup>
-                <Button variant="contained" color="primary" href="#contained-buttons" onClick={() => { console.log('onClick'); }}>
+                <Button variant="contained" color="primary" href="#contained-buttons" onClick={acceptFilters}>
                     Accept
                 </Button>
             </FormControl>
