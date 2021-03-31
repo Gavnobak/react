@@ -6,6 +6,8 @@ import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import GridListTile from "@material-ui/core/GridListTile";
+import GridList from "@material-ui/core/GridList";
 
 
 function RecipeFull() {
@@ -20,6 +22,10 @@ function RecipeFull() {
         },
         title: {
             margin: theme.spacing(4, 0, 2),
+        },
+        gridList: {
+            width: 500,
+            height: 450,
         },
     }));
 
@@ -90,18 +96,14 @@ function RecipeFull() {
                     </div>
                 </Grid>
             </Grid>
-            {/*<ImageList variant="masonry" cols={3} gap={8}>*/}
-            {/*    {recipeByIndex.images?.map((item,index) => (*/}
-            {/*        <ImageListItem key={index}>*/}
-            {/*            <img*/}
-            {/*                srcSet={`${item}?w=161&fit=crop&auto=format 1x,*/}
-            {/*                ${item}?w=161&fit=crop&auto=format&dpr=2 2x`}*/}
-            {/*                // alt={item.title}*/}
-            {/*                loading="lazy"*/}
-            {/*            />*/}
-            {/*        </ImageListItem>*/}
-            {/*    ))}*/}
-            {/*</ImageList>*/}
+            <GridList cellHeight={160} className={classes.gridList} cols={3}>
+                {recipeByIndex.images?.map((item,index) => (
+                    <GridListTile key={index} cols={1}>
+                        <img src={item}/>
+                    </GridListTile>
+                ))}
+            </GridList>
+
         </div>
     );
 }
