@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import CardContent from "@material-ui/core/CardContent";
 import {makeStyles} from "@material-ui/core/styles";
 import Chip from "@material-ui/core/Chip";
+import {Link} from "react-router-dom";
 
 function RecipeItem({recipe}) {
     const useStyles = makeStyles((theme) => ({
@@ -27,6 +28,7 @@ function RecipeItem({recipe}) {
 
     return (
         <Grid item key={recipe} xs={12} sm={6} md={4}>
+            <Link to={`/item/${recipe.id}`}>
             <Card className={classes.card}>
                 <CardMedia className={classes.cardMedia} image={recipe.thumbnail}>
                     <Chip label={recipe.cookTime}/>
@@ -42,6 +44,7 @@ function RecipeItem({recipe}) {
                     </Typography>
                 </CardContent>
             </Card>
+            </Link>
         </Grid>
     )
 }

@@ -1,11 +1,12 @@
 import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import FilterModal from "./FilterModal";
 import TextField from "@material-ui/core/TextField";
+import {Link} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     mainFeaturedPost: {
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Header(props) {
     const classes = useStyles();
-    const { post,filters, setFilters, changeFilter } = props;
+    const {post, filters, setFilters, changeFilter} = props;
 
     const filterRec = event => {
         if (event.key === 'Enter') {
@@ -48,18 +49,21 @@ function Header(props) {
 
     }
 
-    return <Paper className={classes.mainFeaturedPost} style={{ backgroundImage: `url(${post.image})` }}>
-        {<img style={{ display: 'none' }} src={post.image}  />}
-        <div className={classes.overlay} />
+    return <Paper className={classes.mainFeaturedPost} style={{backgroundImage: `url(${post.image})`}}>
+        {<img style={{display: 'none'}} src={post.image}/>}
+        <div className={classes.overlay}/>
         <Grid container>
             <Grid item md={6}>
                 <div className={classes.mainFeaturedPostContent}>
-                    <Typography component="h1" variant="h3" color="inherit" gutterBottom>
-                        {post.title}
-                    </Typography>
-                    <Typography variant="h5" color="inherit" paragraph>
-                        {post.description}
-                    </Typography>
+
+                    <Link to="/list/main">
+                        <Typography component="h1" variant="h3" color="inherit" gutterBottom>
+                            {post.title}
+                        </Typography>
+                        <Typography variant="h5" color="inherit" paragraph>
+                            {post.description}
+                        </Typography>
+                    </Link>
                     <div>
                         <TextField
                             id="outlined-search"
@@ -67,7 +71,7 @@ function Header(props) {
                             type="search"
                             variant="outlined"
                             onKeyPress={filterRec}
-                            onChange={event => setFilters({...filters,title:event.target.value})}
+                            onChange={event => setFilters({...filters, title: event.target.value})}
                         />
                         <FilterModal filters={filters} setFilters={setFilters}/>
                     </div>
