@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import FilterModal from "./FilterModal";
 import TextField from "@material-ui/core/TextField";
 import {Link} from "react-router-dom";
+import {Context} from "../context";
 
 const useStyles = makeStyles((theme) => ({
     mainFeaturedPost: {
@@ -39,12 +40,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Header(props) {
+    const {acceptFilters} = useContext(Context)
     const classes = useStyles();
     const {post, filters, setFilters, changeFilter} = props;
 
     const filterRec = event => {
         if (event.key === 'Enter') {
-            changeFilter(filters.title)
+            acceptFilters()
         }
 
     }

@@ -95,14 +95,20 @@ function App() {
         }
     }
 
-    function isValid(item) {
+    function isValid(arrOfValidCuisines, item) {
+        const isValidTitile = item.title.toLowerCase().includes(filters.title.toLowerCase())
+        const isValidCuisine = arrOfValidCuisines.includes(item.cuisine.title)
         const isLessThenMax = item.caloricity <= filters.caloricityCurrent[1]
         const isMoreThenMin = item.caloricity >= filters.caloricityCurrent[0]
-        return isLessThenMax && isMoreThenMin
+        return isLessThenMax && isMoreThenMin && isValidCuisine && isValidTitile
     }
 
     function acceptFilters() {
-        setFilteredRecipes(recipes.filter(isValid))
+        const checkFields = []  
+        filters.cuisines?.forEach((item)=>{
+            if (item.value) checkFields.push(item.title)
+        })
+        setFilteredRecipes(recipes.filter(isValid.bind(null, checkFields)))
     }
 
 
@@ -120,7 +126,6 @@ function App() {
                             post={mainFeaturedPost}
                             filters={filters}
                             setFilters={setFilters}
-                            changeFilter={filterRec}
                         />
                     </main>
                     <Route
