@@ -7,7 +7,7 @@ import Grid from "@material-ui/core/Grid";
 function RecipeList(props) {
 
     return (
-        <Grid container spacing={4}>
+        <Grid container spacing={2}>
             {props.recipes.map((recipe, index) => {
                 return <RecipeItem
                     recipe={recipe}

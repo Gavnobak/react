@@ -12,23 +12,28 @@ import {Link} from "react-router-dom";
 function RecipeItem({recipe}) {
     const useStyles = makeStyles((theme) => ({
         card: {
-            height: '100%',
+            height: '100%', //'384px',
+            // width: '90%', //'348px',
+            // flexBasis: '50%',
             display: 'flex',
+            borderRadius: '8px',
             flexDirection: 'column',
         },
         cardMedia: {
-            paddingTop: '56.25%', // 16:9
+            // minHeight: '50%',
+            paddingTop: '50%', // 16:9
         },
         cardContent: {
             flexGrow: 1,
+            // minHeight: '50%',
         },
     }));
 
     const classes = useStyles();
 
     return (
-        <Grid item key={recipe} xs={12} sm={6} md={4}>
-            <Link to={`/item/${recipe.id}`}>
+        <Grid item key={recipe} xs={12} sm={6} md={4} >
+            <Link to={`/item/${recipe.id}`} style={{ textDecoration: 'none' }}>
             <Card className={classes.card}>
                 <CardMedia className={classes.cardMedia} image={recipe.thumbnail}>
                     <Chip label={recipe.cookTime}/>
@@ -36,10 +41,10 @@ function RecipeItem({recipe}) {
                     <Chip label={recipe.cuisine.title}/>
                 </CardMedia>
                 <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
+                    <Typography gutterBottom variant="h3">
                         {recipe.title}
                     </Typography>
-                    <Typography>
+                    <Typography gutterBottom variant="body">
                         {recipe.description}
                     </Typography>
                 </CardContent>

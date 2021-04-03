@@ -11,8 +11,9 @@ import {
     Redirect,
 } from "react-router-dom";
 import RecipeFull from "./Recipes/RecipeFull";
-// import ImageList from '@material-ui/core/ImageList';
-// import ImageListItem from '@material-ui/core/ImageListItem';
+import {ThemeProvider} from "@material-ui/styles";
+import {createMuiTheme} from "@material-ui/core";
+
 
 function App() {
     const [recipes, setRecipes] = React.useState([])
@@ -68,9 +69,6 @@ function App() {
             backgroundColor: theme.palette.background.paper,
             padding: theme.spacing(8, 0, 6),
         },
-        heroButtons: {
-            marginTop: theme.spacing(4),
-        },
         cardGrid: {
             paddingTop: theme.spacing(8),
             paddingBottom: theme.spacing(8),
@@ -95,6 +93,48 @@ function App() {
         }
     }
 
+    const theme = createMuiTheme({
+        typography: {
+            h1: {
+                fontFamily: "Gilroy",
+                fontSize: "64px",
+                fontWeight: "800",
+                lineHeight: "80px"
+            },
+            h2: {
+                fontFamily: "Gilroy",
+                fontSize: "40px",
+                fontWeight: "800",
+                lineHeight: "48px"
+            },
+            h3: {
+                fontFamily: "Gilroy",
+                fontSize: "24px",
+                fontWeight: "800",
+                lineHeight: "28px"
+            },
+            body: {
+                fontFamily: "RobotoRegular",
+                fontSize: "16px",
+                fontWeight: "400",
+                lineHeight: "24px"
+            },
+            footnote: {
+                fontFamily: "RobotoRegular",
+                fontSize: "12px",
+                fontWeight: "400",
+                lineHeight: "16px"
+            },
+            f: {
+                fontFamily: "RobotoRegular",
+                fontSize: "9px",
+                fontWeight: "700",
+                lineHeight: "10,55px",
+                align: "Center"
+            }
+        }
+    });
+
     function isValid(arrOfValidCuisines, item) {
         const isValidTitile = item.title.toLowerCase().includes(filters.title.toLowerCase())
         const isValidCuisine = arrOfValidCuisines.includes(item.cuisine.title)
@@ -104,8 +144,8 @@ function App() {
     }
 
     function acceptFilters() {
-        const checkFields = []  
-        filters.cuisines?.forEach((item)=>{
+        const checkFields = []
+        filters.cuisines?.forEach((item) => {
             if (item.value) checkFields.push(item.title)
         })
         setFilteredRecipes(recipes.filter(isValid.bind(null, checkFields)))
@@ -118,33 +158,35 @@ function App() {
         <Context.Provider value={{
             acceptFilters
         }}>
-            <React.Fragment>
-                <Router>
-                    <CssBaseline/>
-                    <main>
-                        <Header
-                            post={mainFeaturedPost}
-                            filters={filters}
-                            setFilters={setFilters}
+            <ThemeProvider theme={theme}>
+                <React.Fragment>
+                    <Router>
+                        <CssBaseline/>
+                        <main>
+                            <Header
+                                post={mainFeaturedPost}
+                                filters={filters}
+                                setFilters={setFilters}
+                            />
+                        </main>
+                        <Route
+                            exact
+                            path="/"
+                            render={() => {
+                                return (
+                                    <Redirect to="/list/main"/>
+                                )
+                            }}
                         />
-                    </main>
-                    <Route
-                        exact
-                        path="/"
-                        render={() => {
-                            return (
-                                <Redirect to="/list/main"/>
-                            )
-                        }}
-                    />
-                    <Route path="/list/main">
-                        <Container className={classes.cardGrid} maxWidth="md">
-                            <RecipeList recipes={filteredRecipes}/>
-                        </Container>
-                    </Route>
-                    <Route path="/item/:id" children={<RecipeFull/>}/>
-                </Router>
-            </React.Fragment>
+                        <Route path="/list/main">
+                            <Container className={classes.cardGrid} /*maxWidth="xl"*/ /*fixed*/>
+                                <RecipeList recipes={filteredRecipes}/>
+                            </Container>
+                        </Route>
+                        <Route path="/item/:id" children={<RecipeFull/>}/>
+                    </Router>
+                </React.Fragment>
+            </ThemeProvider>
         </Context.Provider>
 
     );

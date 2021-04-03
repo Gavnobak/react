@@ -58,11 +58,11 @@ function Header(props) {
             <Grid item md={6}>
                 <div className={classes.mainFeaturedPostContent}>
 
-                    <Link to="/list/main">
-                        <Typography component="h1" variant="h3" color="inherit" gutterBottom>
+                    <Link to="/list/main" style={{ textDecoration: 'none' }}>
+                        <Typography variant="h1"  gutterBottom>
                             {post.title}
                         </Typography>
-                        <Typography variant="h5" color="inherit" paragraph>
+                        <Typography variant="body" paragraph>
                             {post.description}
                         </Typography>
                     </Link>
