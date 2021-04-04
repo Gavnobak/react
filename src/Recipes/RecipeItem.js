@@ -12,8 +12,10 @@ import {Link} from "react-router-dom";
 function RecipeItem({recipe}) {
     const useStyles = makeStyles((theme) => ({
         card: {
-            height: '100%', //'384px',
-            // width: '90%', //'348px',
+            height: '100%',
+            // height: '384px',
+            width: '90%',
+            // width: '348px',
             // flexBasis: '50%',
             display: 'flex',
             borderRadius: '8px',
@@ -21,6 +23,7 @@ function RecipeItem({recipe}) {
         },
         cardMedia: {
             // minHeight: '50%',
+            // maxHeight: '50%',
             paddingTop: '50%', // 16:9
         },
         cardContent: {
@@ -41,10 +44,10 @@ function RecipeItem({recipe}) {
                     <Chip label={recipe.cuisine.title}/>
                 </CardMedia>
                 <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h3">
+                    <Typography variant="h3">
                         {recipe.title}
                     </Typography>
-                    <Typography gutterBottom variant="body">
+                    <Typography variant="body1">
                         {recipe.description}
                     </Typography>
                 </CardContent>

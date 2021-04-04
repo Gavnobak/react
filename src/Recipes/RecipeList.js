@@ -8,7 +8,7 @@ function RecipeList(props) {
 
     return (
         <Grid container spacing={2}>
-            {props.recipes.map((recipe, index) => {
+            {props.recipes?.map((recipe, index) => {
                 return <RecipeItem
                     recipe={recipe}
                     key={recipe.id}
