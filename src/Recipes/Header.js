@@ -126,7 +126,7 @@ function Header(props) {
                                 aria-label="search"
                                 onClick={filterWithEmptyTitle}
                             >
-                                <Icon className={classes.rotate45} >add_circle</Icon>
+                                <Icon className={classes.rotate45} >cancel</Icon>
                             </IconButton>) : "" }
                         </Paper>
                         <FilterModal filters={filters} setFilters={setFilters}/>

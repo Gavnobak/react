@@ -84,6 +84,10 @@ function App() {
 
 
     const theme = createMuiTheme({
+        styles: {
+            shade50: "#82786A",
+            shade40: "#A9A9A9"
+        },
         typography: {
             h1: {
                 fontFamily: "Gilroy",
