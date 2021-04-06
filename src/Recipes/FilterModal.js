@@ -193,7 +193,7 @@ function FilterModal({filters, setFilters}) {
     );
 
     return (
-        <div>
+        <React.Fragment>
             <IconButton aria-label="delete" className={classes.margin} onClick={handleOpen}>
                 <ArrowDownwardIcon fontSize="inherit"/>
             </IconButton>
@@ -205,7 +205,7 @@ function FilterModal({filters, setFilters}) {
             >
                 {body}
             </Modal>
-        </div>
+        </React.Fragment>
     );
 }
 
