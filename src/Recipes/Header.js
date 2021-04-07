@@ -53,6 +53,10 @@ const useStyles = makeStyles((theme) => ({
     textLink: {
         textDecoration: 'none',
         color: 'black'
+    },
+    boxInput:{
+        paddingTop: '35px',
+        display:'flex'
     }
 }));
 
@@ -89,7 +93,7 @@ function Header(props) {
                         </Typography>
 
                     </Box>
-                    <Box style={{paddingTop: '35px'}}>
+                    <Box className={classes.boxInput} style={{}}>
                         <Paper className={classes.root}>
                             <IconButton type="submit" aria-label="search">
                                 <SearchIcon/>

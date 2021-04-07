@@ -44,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
     },
     formControl: {
-        // margin: theme.spacing(3),
         width: "100%"
     },
     closeButton: {
@@ -54,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
         color: theme.styles.shade50,
     },
     root: {
+        marginLeft:'auto',
         '&$checked': {
             color: theme.styles.shade50,
         },
@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
         color: theme.styles.shade50,
     },
     buttonAccept: {
-        // boxShadow: '0',
+        marginLeft:'auto',
         width: '143px',
         height: '36px',
         color: 'white',
@@ -86,6 +86,9 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: 'rgba(0, 0, 0, 0.05)',
         },
     },
+    boxButtons: {
+        display: 'flex'
+    }
 }));
 
 function FilterModal({filters, setFilters}) {
@@ -171,7 +174,7 @@ function FilterModal({filters, setFilters}) {
                         </React.Fragment> : <div>Empty</div>}
 
                 </FormGroup>
-                <Box>
+                <Box className={classes.boxButtons}>
                     <Button variant="contained"
                             color="primary"
                             disableElevation={true}
