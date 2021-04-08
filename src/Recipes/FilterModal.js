@@ -138,7 +138,7 @@ function FilterModal({filters, setFilters}) {
             <FormControl component="fieldset" className={classes.formControl}>
                 <FormGroup>
                     {filters.cuisines ? filters.cuisines.map((cuisin, index) => {
-                        return <React.Fragment>
+                        return <React.Fragment key={index}>
                             <FormControlLabel
                                 checked={cuisin.value}
                                 control={<Checkbox classes={{

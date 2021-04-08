@@ -13,23 +13,23 @@ function RecipeItem({recipe}) {
     const useStyles = makeStyles((theme) => ({
         card: {
             height: '100%',
-            // height: '384px',
             width: '90%',
-            // width: '348px',
-            // flexBasis: '50%',
             display: 'flex',
             borderRadius: '8px',
             flexDirection: 'column',
         },
         cardMedia: {
-            // minHeight: '50%',
-            // maxHeight: '50%',
-            paddingTop: '50%', // 16:9
+            paddingTop: '50%',
         },
         cardContent: {
             flexGrow: 1,
-            // minHeight: '50%',
         },
+        chip:{
+            backgroundColor: '#FFFFFF',
+            marginLeft: theme.spacing(1),
+            marginBottom: theme.spacing(2),
+            alignSelf: "right"
+        }
     }));
 
     const classes = useStyles();
@@ -39,9 +39,9 @@ function RecipeItem({recipe}) {
             <Link to={`/item/${recipe.id}`} style={{ textDecoration: 'none' }}>
             <Card className={classes.card}>
                 <CardMedia className={classes.cardMedia} image={recipe.thumbnail}>
-                    <Chip label={recipe.cookTime}/>
-                    <Chip label={recipe.caloricity + "kCal"}/>
-                    <Chip label={recipe.cuisine.title}/>
+                    <Chip className={classes.chip} label={<Typography variant="body2">{recipe.cookTime}</Typography>}/>
+                    <Chip className={classes.chip} label={<Typography variant="body2">{recipe.caloricity + " kCal"}</Typography>}/>
+                    <Chip className={classes.chip} label={<Typography variant="body2">{recipe.cuisine.title}</Typography>}/>
                 </CardMedia>
                 <CardContent className={classes.cardContent}>
                     <Typography variant="h3">
