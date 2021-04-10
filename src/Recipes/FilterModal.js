@@ -13,20 +13,18 @@ import {Context} from "../context";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Divider from '@material-ui/core/Divider';
-import RecipeItem from "./RecipeItem";
+import Backdrop from '@material-ui/core/Backdrop';
 import Box from "@material-ui/core/Box";
+import Icon from "@material-ui/core/Icon";
 
-function rand() {
-    return Math.round(Math.random() * 20) - 10;
-}
 
 function getModalStyle() {
-    const top = 50 + rand();
-    const left = 50 + rand();
+    const top = 50 ;
+    const left = 50 ;
 
     return {
-        top: `${top}%`,
-        left: `${left}%`,
+        top: `50%`,
+        left: `50%`,
         transform: `translate(-${top}%, -${left}%)`,
     };
 }
@@ -34,17 +32,27 @@ function getModalStyle() {
 const useStyles = makeStyles((theme) => ({
     paper: {
         position: 'absolute',
-        width: 400,
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 440,
         backgroundColor: theme.palette.background.paper,
-        border: '2px solid #000',
         boxShadow: theme.shadows[5],
+        borderColor: 'rgba(0, 0, 0, 0)',
         padding: theme.spacing(2, 4, 3),
     },
     margin: {
-        margin: theme.spacing(1),
+        left: theme.spacing(2),
+        width: "56px",
+        height: "56px",
+        border: '1px solid',
+        borderColor: theme.styles.shade20,
+        borderRadius: 28,
     },
     formControl: {
-        width: "100%"
+        width: "100%",
+        height: '90%',
+        top: theme.spacing(2),
+        paddingBottom: theme.spacing(3),
     },
     closeButton: {
         position: 'absolute',
@@ -87,7 +95,14 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     boxButtons: {
-        display: 'flex'
+        display: 'flex',
+    },
+    iconColor:{
+        color: theme.styles.base0,
+    },
+    backdrop:{
+        // backgroundColor: 'rgba(255,255,255, 0.8)',
+        // opacity: ',
     }
 }));
 
@@ -136,10 +151,11 @@ function FilterModal({filters, setFilters}) {
                 <CloseIcon/>
             </IconButton>
             <FormControl component="fieldset" className={classes.formControl}>
-                <FormGroup>
+                <FormGroup style={{paddingBottom: '50px'}}>
                     {filters.cuisines ? filters.cuisines.map((cuisin, index) => {
                         return <React.Fragment key={index}>
                             <FormControlLabel
+                                style={{marginLeft: '0px'}}
                                 checked={cuisin.value}
                                 control={<Checkbox classes={{
                                     root: classes.root,
@@ -198,13 +214,18 @@ function FilterModal({filters, setFilters}) {
     return (
         <React.Fragment>
             <IconButton aria-label="delete" className={classes.margin} onClick={handleOpen}>
-                <ArrowDownwardIcon fontSize="inherit"/>
+                <Icon className={classes.iconColor}>filter_list</Icon>
             </IconButton>
             <Modal
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    style: {backgroundColor: 'white', opacity: '0.8'},
+                    timeout: 500,
+                }}
             >
                 {body}
             </Modal>

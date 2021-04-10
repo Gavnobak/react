@@ -13,6 +13,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import Icon from "@material-ui/core/Icon";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
+import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
     mainFeaturedPost: {
@@ -30,20 +31,23 @@ const useStyles = makeStyles((theme) => ({
         position: 'relative',
         height: '600px',
         paddingLeft: theme.spacing(9),
-        paddingTop:theme.spacing(15),
+        paddingTop: theme.spacing(15),
     },
-    root: {
+    inputPaper: {
         top: theme.spacing(4),
-        border: '1px solid #DDDDDD',
+        border: '1px solid',
         borderRadius: 28,
         padding: '2px 4px',
         display: 'flex',
         alignItems: 'center',
         width: "276px",
         height: "56px",
-        "&$focused": {
-            borderColor: "red"
-        }
+    },
+    paperBorderShow: {
+        borderColor: theme.styles.shade40
+    },
+    paperBorderHide: {
+        borderColor: theme.styles.shade20
     },
     input: {
         marginLeft: theme.spacing(1),
@@ -54,16 +58,27 @@ const useStyles = makeStyles((theme) => ({
         textDecoration: 'none',
         color: 'black'
     },
-    boxInput:{
+    boxInput: {
         paddingTop: '35px',
-        display:'flex'
-    }
+        display: 'flex'
+    },
+    iconColor: {
+        color: theme.styles.shade40
+    },
+    butShow: {
+        visibility: "visible"
+    },
+    butHide: {
+        visibility: "hidden"
+    },
 }));
 
 function Header(props) {
     const {acceptFilters} = useContext(Context)
     const classes = useStyles();
     const {filters, setFilters} = props;
+    const [deleteButtonShow, setDeleteButtonShow] = React.useState(false)
+    const [showBorder, setShowBorder] = React.useState(false)
 
     const filterRec = event => {
         if (event.key === 'Enter') {
@@ -73,7 +88,7 @@ function Header(props) {
 
     const filterWithEmptyTitle = () => {
         setFilters({...filters, title: ""})
-        acceptFilters()
+        acceptFilters() //тут баг, нужен колбэк
     }
 
     return <Paper className={classes.mainFeaturedPost}>
@@ -94,8 +109,13 @@ function Header(props) {
 
                     </Box>
                     <Box className={classes.boxInput} style={{}}>
-                        <Paper className={classes.root}>
-                            <IconButton type="submit" aria-label="search">
+                        <Paper elevation={0}
+                               className={clsx(classes.inputPaper, {
+                                   [classes.paperBorderShow]: showBorder,
+                                   [classes.paperBorderHide]: !showBorder,
+                               })}>
+                            <IconButton type="submit" aria-label="search" style={{backgroundColor: 'transparent'}}
+                                        onClick={() => acceptFilters()}>
                                 <SearchIcon/>
                             </IconButton>
                             <InputBase
@@ -105,14 +125,27 @@ function Header(props) {
                                 inputProps={{'aria-label': 'search'}}
                                 onKeyPress={filterRec}
                                 onChange={event => setFilters({...filters, title: event.target.value})}
+                                onFocus={() => {
+                                    setShowBorder(true)
+                                    setDeleteButtonShow(false)
+                                }}
+                                onBlur={() => {
+                                    if (filters.title) setDeleteButtonShow(true)
+                                    setShowBorder(false)
+                                }}
                             />
-                            {filters.title ? (<IconButton
+                            <IconButton
                                 type="submit"
                                 aria-label="search"
                                 onClick={filterWithEmptyTitle}
+                                style={{backgroundColor: 'transparent'}}
+                                className={clsx({
+                                    [classes.butHide]: !deleteButtonShow,
+                                    [classes.butShow]: deleteButtonShow,
+                                })}
                             >
-                                <Icon>cancel</Icon>
-                            </IconButton>) : ""}
+                                <Icon className={classes.iconColor}>cancel</Icon>
+                            </IconButton>
                         </Paper>
                         <FilterModal filters={filters} setFilters={setFilters}/>
                     </Box>

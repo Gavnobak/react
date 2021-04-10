@@ -13,7 +13,7 @@ import {
 import RecipeFull from "./Recipes/RecipeFull";
 import {ThemeProvider} from "@material-ui/styles";
 import {createMuiTheme} from "@material-ui/core";
-import AppBar from "@material-ui/core/AppBar";
+import mainimage from './images/mainimage.png';
 
 
 function App() {
@@ -74,14 +74,23 @@ function App() {
             paddingTop: theme.spacing(8),
             paddingBottom: theme.spacing(8),
         },
+        stickingHeader: {
+            //     position: '-webkit-sticky',
+            position: "sticky",
+            top: "0",
+        }
     }));
 
     const theme = createMuiTheme({
         styles: {
-            mainImage: 'https://s3-alpha-sig.figma.com/img/4753/d7c5/cb990e282b15a01c7b59a7ea480ff736?Expires=1617580800&Signature=bYny6Hx0SK5g6YZ1z3jOYcMOt2oyIyYjsrm03E3aBLPivHpwsr7bDs-Nyw5gwR2AtZylZ4v1Z86zskNHoH5cMmB1fiq5jUepwu9ft3aJGGcmduy~1kFhExM3p4pKy5hoCHORCGQvUKPb1BMASgvZN17qzOejAizBZPfV73Qe6oPaO~S~IHglvZWclt8jqvrSBuAOhchZ0bIwNkOHnNONPz7uRUyId5hI8iQirzObLHh8TMJPtQVZrlT4t3FIsdcI9l2YPiRM2BcC~A6vPVY2PzF9A4GgzFyy5Ef9ewEFgWLqfPP6koEbYl7IQ3bWxAq9F5UFRuOzvoFnzVYWYGtFeQ__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA',
+            mainImage: mainimage,
             shade50: "#82786A",
             shade40: "#A9A9A9",
             shade20: "#DDDDDD",
+            base0: "#000000",
+            easy: '#2FB65D',
+            medium: '#EB8A31',
+            hard: '#EB3C31',
         },
         typography: {
             h1: {
@@ -140,18 +149,29 @@ function App() {
         setFilteredRecipes(recipes.filter(isValid.bind(null, checkFields)))
     }
 
+    const getTimeStr = (time) => {
+        if (time) {
+            const minute = time/60
+            if (minute >= 60) {
+                const hours = minute/60
+                return hours>1 ? `${hours} hours` : `${hours} hour` // получится очень плохо если там не ровно 3.5 часа а например 3 часа 20 мин
+            }
+
+            return `${minute} min`
+        }
+    }
 
     const classes = useStyles();
     return (
 
         <Context.Provider value={{
-            acceptFilters
+            acceptFilters, getTimeStr
         }}>
             <ThemeProvider theme={theme}>
                 <React.Fragment>
                     <Router>
                         <CssBaseline/>
-                        <main>
+                        <main /*className={classes.stickingHeader}*/>
                             <Header
                                 filters={filters}
                                 setFilters={setFilters}
