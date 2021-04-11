@@ -11,7 +11,7 @@ import {Link} from "react-router-dom";
 import {Context} from "../context";
 import {Box} from "@material-ui/core";
 
-function RecipeItem({recipe}) {
+function RecipeListItem({recipe}) {
     const {getTimeStr} = useContext(Context)
     const useStyles = makeStyles((theme) => ({
         card: {
@@ -65,8 +65,8 @@ function RecipeItem({recipe}) {
     )
 }
 
-RecipeItem.propTypes = {
+RecipeListItem.propTypes = {
     recipe: PropTypes.object.isRequired,
 }
 
-export default RecipeItem
+export default RecipeListItem

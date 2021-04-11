@@ -10,7 +10,7 @@ import {
     Route,
     Redirect,
 } from "react-router-dom";
-import RecipeFull from "./Recipes/RecipeFull";
+import RecipeDetails from "./Recipes/RecipeDetails";
 import {ThemeProvider} from "@material-ui/styles";
 import {createMuiTheme} from "@material-ui/core";
 import mainimage from './images/mainimage.png';
@@ -65,21 +65,7 @@ function App() {
 
     }, [recipes])
 
-    const useStyles = makeStyles((theme) => ({
-        heroContent: {
-            backgroundColor: theme.palette.background.paper,
-            padding: theme.spacing(8, 0, 6),
-        },
-        cardGrid: {
-            paddingTop: theme.spacing(8),
-            paddingBottom: theme.spacing(8),
-        },
-        stickingHeader: {
-            //     position: '-webkit-sticky',
-            position: "sticky",
-            top: "0",
-        }
-    }));
+
 
     const theme = createMuiTheme({
         styles: {
@@ -88,9 +74,17 @@ function App() {
             shade40: "#A9A9A9",
             shade20: "#DDDDDD",
             base0: "#000000",
+            base1: "#FFFFFF",
             easy: '#2FB65D',
             medium: '#EB8A31',
             hard: '#EB3C31',
+        },
+        overrides: {
+            MuiTouchRipple: {
+                child: {
+                    backgroundColor: "#DDDDDD",
+                }
+            }
         },
         typography: {
             h1: {
@@ -133,6 +127,20 @@ function App() {
         }
     });
 
+    const useStyles = makeStyles((theme) => ({
+        heroContent: {
+            padding: theme.spacing(8, 0, 6),
+        },
+        cardGrid: {
+            paddingTop: theme.spacing(4) ,
+            paddingBottom: theme.spacing(8),
+        },
+        stickingHeader: {
+            position: "sticky",
+            top: "0",
+        }
+    }));
+
     function isValid(arrOfValidCuisines, item) {
         const isValidTitile = item.title.toLowerCase().includes(filters.title.toLowerCase())
         const isValidCuisine = arrOfValidCuisines.includes(item.cuisine.title)
@@ -165,17 +173,14 @@ function App() {
     return (
 
         <Context.Provider value={{
-            acceptFilters, getTimeStr
+            acceptFilters, getTimeStr, filters, setFilters
         }}>
             <ThemeProvider theme={theme}>
                 <React.Fragment>
                     <Router>
                         <CssBaseline/>
                         <main /*className={classes.stickingHeader}*/>
-                            <Header
-                                filters={filters}
-                                setFilters={setFilters}
-                            />
+                            <Header/>
                         </main>
                         <Route
                             exact
@@ -191,7 +196,7 @@ function App() {
                                 <RecipeList recipes={filteredRecipes}/>
                             </Container>
                         </Route>
-                        <Route path="/item/:id" children={<RecipeFull/>}/>
+                        <Route path="/item/:id" children={<RecipeDetails />}/>
                     </Router>
                 </React.Fragment>
             </ThemeProvider>

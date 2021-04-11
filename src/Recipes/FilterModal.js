@@ -1,43 +1,38 @@
 import React, {useContext} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from '@material-ui/icons/Close';
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControl from "@material-ui/core/FormControl";
-import FormGroup from "@material-ui/core/FormGroup";
-import Slider from "@material-ui/core/Slider";
 import {Context} from "../context";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import Divider from '@material-ui/core/Divider';
-import Backdrop from '@material-ui/core/Backdrop';
-import Box from "@material-ui/core/Box";
-import Icon from "@material-ui/core/Icon";
+import {makeStyles} from '@material-ui/core/styles';
+import {
+    Modal,
+    IconButton,
+    FormControlLabel,
+    Checkbox,
+    FormControl,
+    FormGroup,
+    Slider,
+    Button,
+    Typography,
+    Divider,
+    Backdrop,
+    Box,
+    Icon
+} from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 
-
-function getModalStyle() {
-    const top = 50 ;
-    const left = 50 ;
-
-    return {
-        top: `50%`,
-        left: `50%`,
-        transform: `translate(-${top}%, -${left}%)`,
-    };
-}
 
 const useStyles = makeStyles((theme) => ({
     paper: {
+        top: `50%`,
+        left: `50%`,
+        transform: `translate(-50%, -50%)`,
         position: 'absolute',
         alignItems: 'center',
         justifyContent: 'center',
         width: 440,
         backgroundColor: theme.palette.background.paper,
         boxShadow: theme.shadows[5],
-        borderColor: 'rgba(0, 0, 0, 0)',
+        // непобедимый бордер уходит когда открываешь консоль и выбор элемента
+        // borderColor: 'rgba(0, 0, 0, 0)',
+        // border: '0px',
         padding: theme.spacing(2, 4, 3),
     },
     margin: {
@@ -61,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
         color: theme.styles.shade50,
     },
     root: {
-        marginLeft:'auto',
+        marginLeft: 'auto',
         '&$checked': {
             color: theme.styles.shade50,
         },
@@ -73,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
         color: theme.styles.shade50,
     },
     buttonAccept: {
-        marginLeft:'auto',
+        marginLeft: 'auto',
         width: '143px',
         height: '36px',
         color: 'white',
@@ -97,20 +92,14 @@ const useStyles = makeStyles((theme) => ({
     boxButtons: {
         display: 'flex',
     },
-    iconColor:{
+    iconColor: {
         color: theme.styles.base0,
     },
-    backdrop:{
-        // backgroundColor: 'rgba(255,255,255, 0.8)',
-        // opacity: ',
-    }
 }));
 
-function FilterModal({filters, setFilters}) {
-
-    const {acceptFilters} = useContext(Context)
+function FilterModal() {
+    const {acceptFilters, filters, setFilters} = useContext(Context)
     const classes = useStyles();
-    const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
 
     const handleOpen = () => {
@@ -126,8 +115,8 @@ function FilterModal({filters, setFilters}) {
     };
 
     function clearFilters() {
-        let newCuisines = filters.cuisines?.map((cuisine, index) => {
-            return {...cuisine, value:true}
+        let newCuisines = filters.cuisines?.map((cuisine) => {
+            return {...cuisine, value: true}
         })
         setFilters({...filters, cuisines: newCuisines, caloricityCurrent: filters.caloricityRange})
     }
@@ -143,7 +132,7 @@ function FilterModal({filters, setFilters}) {
     }
 
     const body = (
-        <div style={modalStyle} className={classes.paper}>
+        <div className={classes.paper}>
             <Typography variant="h3" gutterBottom>
                 Filter
             </Typography>
@@ -157,7 +146,7 @@ function FilterModal({filters, setFilters}) {
                             <FormControlLabel
                                 style={{marginLeft: '0px'}}
                                 checked={cuisin.value}
-                                control={<Checkbox classes={{
+                                control={<Checkbox color="default" classes={{
                                     root: classes.root,
                                     checked: classes.checked
                                 }}/>}
@@ -166,7 +155,7 @@ function FilterModal({filters, setFilters}) {
                                     variant="body1">{cuisin.title}</Typography>}
                                 key={index}
                                 labelPlacement="start"
-                                onChange={event => changeCheckbox(index)}
+                                onChange={() => changeCheckbox(index)}
                             />
                             <Divider light/>
                         </React.Fragment>
@@ -174,6 +163,7 @@ function FilterModal({filters, setFilters}) {
                     {filters.caloricityRange ?
                         <React.Fragment>
                             <Slider
+                                // тут я думаю что как и в инпуте лагает слайдер из-за изменений стейта
                                 value={filters.caloricityCurrent}
                                 getAriaValueText={valuetext}
                                 aria-labelledby="range-slider"
