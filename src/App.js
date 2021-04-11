@@ -15,7 +15,6 @@ import {ThemeProvider} from "@material-ui/styles";
 import {createMuiTheme} from "@material-ui/core";
 import mainimage from './images/mainimage.png';
 
-
 function App() {
     const [recipes, setRecipes] = React.useState([])
     const [filteredRecipes, setFilteredRecipes] = React.useState([])
@@ -205,6 +204,23 @@ function App() {
     );
 }
 
+
+// не выполняет проверку во время работы, только при запуске
+// App.propTypes = {
+//     recipes: PropTypes.arrayOf(PropTypes.shape({
+//         id:PropTypes.number,
+//         cookTime: PropTypes.number,
+//         caloricity: PropTypes.number,
+//         title: PropTypes.string,
+//         description: PropTypes.string,
+//         thumbnail: PropTypes.string,
+//         cuisine:PropTypes.shape({
+//             id:PropTypes.number,
+//             title: PropTypes.string,
+//         }),
+//     }),)
+//
+// }
 
 export default App;
 

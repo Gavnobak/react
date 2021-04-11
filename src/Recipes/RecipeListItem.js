@@ -32,6 +32,15 @@ function RecipeListItem({recipe}) {
             marginRight: theme.spacing(1),
             marginBottom: theme.spacing(2),
             alignSelf: "right"
+        },
+        test: {
+            paddingTop: theme.spacing(1.5),
+            overflow: 'hidden',
+            display: '-webkit-box',
+            lineClamp: '5',
+            boxOrient: 'vertical',
+            lineHeight: '1.3em',
+            height: '7em',
         }
     }));
 
@@ -55,7 +64,7 @@ function RecipeListItem({recipe}) {
                         <Typography variant="h3">
                             {recipe.title}
                         </Typography>
-                        <Typography variant="body1">
+                        <Typography variant="body1" /*className={classes.test}*/>
                             {recipe.description}
                         </Typography>
                     </CardContent>

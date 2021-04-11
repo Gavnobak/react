@@ -24,7 +24,7 @@ function RecipeDetails() {
 
     return (
         <Container fixed>
-            <Grid container spacing={3}>
+            <Grid container spacing={3} style={{paddingTop:'30px'}}>
                 <Grid item xs={6}>
                     <Typography variant="h2" color="inherit" gutterBottom>
                         {recipeByIndex.title}
@@ -40,5 +40,24 @@ function RecipeDetails() {
         </Container>
     );
 }
+
+// RecipeDetails.propTypes = {
+//     recipeByIndex: PropTypes.shape({
+//         id:PropTypes.number,
+//         cookTime: PropTypes.number,
+//         caloricity: PropTypes.number,
+//         title: PropTypes.string,
+//         description: PropTypes.string,
+//         thumbnail: PropTypes.string,
+//         difficulty: PropTypes.string,
+//         images: PropTypes.arrayOf(PropTypes.string),
+//         cuisine:PropTypes.shape({
+//             id:PropTypes.number,
+//             title: PropTypes.string,
+//         }),
+//         ingredients: PropTypes.arrayOf(PropTypes.string),
+//         instructions: PropTypes.arrayOf(PropTypes.string),
+//     })
+// }
 
 export default RecipeDetails
